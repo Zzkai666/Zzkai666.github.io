@@ -1,0 +1,146 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import { SITE } from '../consts';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** 首页等页面可关闭最大宽度限制，交给页面自己控制 */
+  wide?: boolean;
+}
+
+const { title, description = SITE.description, wide = false } = Astro.props;
+const pageTitle = title ? `${title} · ${SITE.title}` : `${SITE.title} · ${SITE.tagline}`;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE.url).href;
+const ogImage = new URL('/og.png', Astro.site ?? SITE.url).href;
+---
+
+<!doctype html>
+<html lang={SITE.lang} class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/images/favicon.png" />
+    <link rel="icon" type="image/png" href="/images/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={SITE.title} />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${SITE.title} — ${SITE.tagline}`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="alternate" type="application/rss+xml" title={SITE.title} href="/rss.xml" />
+
+    <ClientRouter />
+
+    <script is:inline>
+      // 主题初始化：必须在渲染前执行，避免暗/亮闪烁
+      (() => {
+        try {
+          var saved = localStorage.getItem('zzkai-theme');
+          var theme = saved === 'light' || saved === 'dark' ? saved : 'dark';
+          document.documentElement.classList.toggle('dark', theme === 'dark');
+          document.documentElement.dataset.theme = theme;
+        } catch (e) {}
+      })();
+
+      // 全站只绑定一次的事件委托（对 View Transitions 与主题切换都有效）
+      (() => {
+        if (window.__zzkaiBound) return;
+        window.__zzkaiBound = true;
+
+        document.addEventListener('click', (event) => {
+          var btn = event.target.closest('[data-theme-toggle]');
+          if (!btn) return;
+
+          var root = document.documentElement;
+          var next = root.classList.contains('dark') ? 'light' : 'dark';
+          var apply = () => {
+            root.classList.toggle('dark', next === 'dark');
+            root.dataset.theme = next;
+            try {
+              localStorage.setItem('zzkai-theme', next);
+            } catch (e) {}
+            document.dispatchEvent(new CustomEvent('zzkai:themechange', { detail: next }));
+          };
+
+          var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          if (!reduce && typeof document.startViewTransition === 'function') {
+            document.startViewTransition(apply);
+          } else {
+            apply();
+          }
+        });
+      })();
+    </script>
+  </head>
+
+  <body class="min-h-screen bg-bg text-text">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:text-white"
+    >
+      跳到主内容
+    </a>
+
+    <Nav />
+
+    <main
+      id="main"
+      class:list={[
+        'mx-auto w-full px-5 pb-24 pt-10 sm:px-8',
+        wide ? 'max-w-none' : 'max-w-3xl',
+      ]}
+    >
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
+</html>
+
+<style is:global>
+  /* 主题切换的裁剪揭示动画。
+     注意：::view-transition-* 是文档级伪元素，必须用 is:global 才不会被打上作用域属性。 */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+
+  ::view-transition-new(root) {
+    animation: theme-clip 420ms ease-out;
+  }
+
+  @keyframes theme-clip {
+    from {
+      clip-path: circle(0% at 92% 6%);
+    }
+    to {
+      clip-path: circle(150% at 92% 6%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    ::view-transition-new(root) {
+      animation: none;
+    }
+  }
+</style>

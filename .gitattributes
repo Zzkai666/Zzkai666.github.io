@@ -1,0 +1,15 @@
+# 统一换行符：本地是 Windows，构建在 Linux CI 上跑，
+# 固定为 LF 可以避免每次提交产生满屏的 CRLF 转换警告与无意义 diff。
+* text=auto eol=lf
+
+# 二进制文件不做任何换行转换
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
+*.gif binary
+*.webp binary
+*.avif binary
+*.woff binary
+*.woff2 binary
+*.wasm binary

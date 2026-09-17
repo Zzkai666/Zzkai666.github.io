@@ -1,0 +1,31 @@
+---
+import { SITE, GITHUB } from '../consts';
+
+const year = new Date().getFullYear();
+---
+
+<footer data-pagefind-ignore class="border-t border-line">
+  <div
+    class="mx-auto flex w-full max-w-3xl flex-col gap-3 px-5 py-10 text-sm text-muted sm:flex-row sm:items-center sm:justify-between sm:px-8"
+  >
+    <p class="font-mono text-xs">
+      © {year} {SITE.author} · Built with <a
+        href="https://astro.build"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="underline underline-offset-2 hover:text-accent">Astro</a
+      >
+    </p>
+
+    <div class="flex items-center gap-4 font-mono text-xs">
+      <a href="/rss.xml" class="transition-colors hover:text-accent">RSS</a>
+      <a href="/archives" class="transition-colors hover:text-accent">归档</a>
+      <a
+        href={GITHUB.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="transition-colors hover:text-accent">GitHub</a
+      >
+    </div>
+  </div>
+</footer>

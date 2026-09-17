@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TagPill from '../../components/TagPill.astro';
+import { getSortedPosts, groupByTerm, termSlug } from '../../lib/posts';
+
+const posts = await getSortedPosts();
+const categories = groupByTerm(posts, 'categories');
+---
+
+<BaseLayout title="分类" description="按分类浏览 zzkai 的全部笔记。">
+  <header>
+    <p class="font-mono text-xs uppercase tracking-[0.2em] text-accent">categories</p>
+    <h1 class="mt-3 text-3xl font-semibold">分类</h1>
+  </header>
+
+  <div class="mt-8 flex flex-wrap gap-2">
+    {
+      categories.map((term) => (
+        <TagPill
+          label={term.name}
+          count={term.count}
+          href={`/categories/${termSlug(term.name)}/`}
+        />
+      ))
+    }
+  </div>
+
+  {categories.length === 0 && <p class="mt-8 text-muted">还没有任何分类。</p>}
+</BaseLayout>

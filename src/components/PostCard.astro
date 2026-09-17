@@ -1,0 +1,55 @@
+---
+import type { Post } from '../lib/posts';
+import { formatDate, postPath, readingTime, termSlug } from '../lib/posts';
+import TagPill from './TagPill.astro';
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+const { data } = post;
+const href = postPath(post);
+const minutes = readingTime(post.body);
+---
+
+<article
+  class="group relative rounded-xl border border-line bg-surface p-5 transition-colors hover:border-accent/50"
+>
+  <div class="flex items-center gap-3 font-mono text-xs text-muted">
+    <time datetime={data.date.toISOString()}>{formatDate(data.date)}</time>
+    <span aria-hidden="true">·</span>
+    <span>{minutes} 分钟</span>
+    {
+      data.draft && (
+        <span class="rounded border border-line px-1.5 py-0.5 text-[0.68rem]">草稿</span>
+      )
+    }
+  </div>
+
+  <h3 class="mt-2 text-lg font-medium leading-snug">
+    <a href={href} class="transition-colors group-hover:text-accent">
+      {data.title}
+      <span class="absolute inset-0" aria-hidden="true"></span>
+    </a>
+  </h3>
+
+  {
+    data.summary && (
+      <p class="mt-2 line-clamp-2 text-sm text-muted">{data.summary}</p>
+    )
+  }
+
+  {
+    (data.tags.length > 0 || data.categories.length > 0) && (
+      <div class="relative z-10 mt-3 flex flex-wrap gap-1.5">
+        {data.categories.map((c) => (
+          <TagPill label={c} href={`/categories/${termSlug(c)}/`} />
+        ))}
+        {data.tags.map((t) => (
+          <TagPill label={`#${t}`} href={`/tags/${termSlug(t)}/`} />
+        ))}
+      </div>
+    )
+  }
+</article>

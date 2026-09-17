@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getSortedPosts, termSlug } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  const posts = await getSortedPosts();
+  const names = new Set<string>();
+  for (const post of posts) {
+    for (const tag of post.data.tags) names.add(tag);
+  }
+
+  return [...names].map((tag) => ({
+    // params 用 slug：不能直接把原始标签塞进路由参数，
+    // 含 `/` 的标签（如 C/C++）会被当成多段路径而匹配失败。
+    params: { tag: termSlug(tag) },
+    props: {
+      // 展示用的是原始标签名
+      tag,
+      posts: posts.filter((post) => post.data.tags.includes(tag)),
+    },
+  }));
+}
+
+const { tag, posts } = Astro.props;
+---
+
+<BaseLayout title={`#${tag}`} description={`标签「${tag}」下的全部笔记。`}>
+  <a href="/tags" class="font-mono text-xs text-muted transition-colors hover:text-accent">
+    ← 全部标签
+  </a>
+
+  <header class="mt-6">
+    <h1 class="text-3xl font-semibold">#{tag}</h1>
+    <p class="mt-2 font-mono text-xs text-muted">{posts.length} 篇</p>
+  </header>
+
+  <div class="mt-10 grid gap-4">
+    {posts.map((post) => <PostCard post={post} />)}
+  </div>
+</BaseLayout>

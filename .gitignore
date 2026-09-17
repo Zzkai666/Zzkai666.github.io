@@ -1,0 +1,38 @@
+# build output
+dist/
+# 上一次失败构建留下的残留产物（可安全删除）
+dist.broken/
+# 本地素材：不发布、不进 Git（例如未被引用的原始大图）
+local-media/
+# generated types
+.astro/
+
+# dependencies
+# 用 node_modules*/ 而不是 node_modules/，以覆盖 node_modules.broken 这类残留目录
+node_modules*/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+
+# environment variables
+.env
+.env.production
+.env.local
+
+# macOS-specific files
+.DS_Store
+
+# Windows-specific files
+Thumbs.db
+desktop.ini
+
+# jetbrains setting folder
+.idea/
+
+# editor settings
+.vscode/*
+!.vscode/extensions.json
