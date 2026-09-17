@@ -15,13 +15,16 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
 const OUTPUT = path.join(ROOT, 'src', 'data', 'repos.json');
 
-const USERNAME = process.env.GH_USERNAME ?? 'qi-shi-wo-men-hen-ke-xi';
+const USERNAME = process.env.GH_USERNAME ?? 'Zzkai666';
 const TOKEN = process.env.GITHUB_TOKEN ?? '';
 const PER_PAGE = 100;
 const MAX_PAGES = 3;
 
-/** 这些仓库只作为站点载体，不进入项目列表 */
-const EXCLUDED = new Set([`${USERNAME}.github.io`, '.github']);
+/**
+ * 这些仓库只作为站点载体，不进入项目列表。
+ * 统一转小写后比较 —— GitHub 仓库名大小写不敏感，接口返回的大小写不一定与配置一致。
+ */
+const EXCLUDED = new Set([`${USERNAME}.github.io`.toLowerCase(), '.github']);
 
 async function fetchPage(page) {
   const url = new URL(`https://api.github.com/users/${USERNAME}/repos`);
@@ -32,7 +35,7 @@ async function fetchPage(page) {
 
   const headers = {
     accept: 'application/vnd.github+json',
-    'user-agent': 'zzkai-site-build',
+    'user-agent': 'hhkai-site-build',
     'x-github-api-version': '2022-11-28',
   };
   if (TOKEN) headers.authorization = `Bearer ${TOKEN}`;
@@ -89,7 +92,7 @@ async function main() {
   }
 
   const repos = collected
-    .filter((repo) => !repo.fork && !repo.archived && !EXCLUDED.has(repo.name))
+    .filter((repo) => !repo.fork && !repo.archived && !EXCLUDED.has(String(repo.name).toLowerCase()))
     .map(normalize)
     .sort((a, b) => b.stars - a.stars || String(b.pushedAt).localeCompare(String(a.pushedAt)));
 

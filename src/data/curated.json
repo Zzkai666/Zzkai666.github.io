@@ -1,9 +1,9 @@
 [
   {
-    "title": "本站 · zzkai",
+    "title": "本站 · hhkai",
     "description": "用 Astro 重建的个人网站：技术笔记、项目展示与 3D 交互实验。支持本地 Markdown 写作 + git push 自动发布。",
-    "url": "https://github.com/qi-shi-wo-men-hen-ke-xi/qi-shi-wo-men-hen-ke-xi.github.io",
-    "homepage": "https://qi-shi-wo-men-hen-ke-xi.github.io",
+    "url": "https://github.com/Zzkai666/Zzkai666.github.io",
+    "homepage": "https://zzkai666.github.io",
     "language": "Astro",
     "tags": ["Astro", "TypeScript", "Tailwind"],
     "pinned": true

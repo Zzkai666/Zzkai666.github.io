@@ -47,7 +47,7 @@ const svg = `<svg width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HE
   <circle cx="96" cy="150" r="7" fill="${ACCENT}"/>
   <text x="118" y="157" font-family="Consolas, Menlo, monospace" font-size="20" fill="${ACCENT}" letter-spacing="3">PERSONAL SITE</text>
 
-  <text x="92" y="284" font-family="Microsoft YaHei, Segoe UI, Helvetica, Arial, sans-serif" font-size="112" font-weight="600" fill="${TEXT}" letter-spacing="-2">zzkai</text>
+  <text x="92" y="284" font-family="Microsoft YaHei, Segoe UI, Helvetica, Arial, sans-serif" font-size="112" font-weight="600" fill="${TEXT}" letter-spacing="-2">hhkai</text>
 
   <text x="94" y="356" font-family="Microsoft YaHei, Segoe UI, Helvetica, Arial, sans-serif" font-size="34" fill="${MUTED}">技术笔记与一些好玩的东西</text>
 
@@ -55,7 +55,7 @@ const svg = `<svg width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HE
 
   <text x="94" y="470" font-family="Microsoft YaHei, Segoe UI, Helvetica, Arial, sans-serif" font-size="24" fill="${MUTED}">笔记 · 项目 · 3D 实验</text>
 
-  <text x="94" y="552" font-family="Consolas, Menlo, monospace" font-size="21" fill="${ACCENT}">qi-shi-wo-men-hen-ke-xi.github.io</text>
+  <text x="94" y="552" font-family="Consolas, Menlo, monospace" font-size="21" fill="${ACCENT}">zzkai666.github.io</text>
 </svg>
 `;
 

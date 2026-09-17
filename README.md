@@ -1,4 +1,4 @@
-# zzkai
+# hhkai
 
 个人网站：技术笔记 + 项目展示 + 3D / 动效实验。
 
@@ -79,6 +79,12 @@ npm run fetch-repos      # 本地手动跑；CI 里会自动跑
 - 想手动置顶项目或补充非 GitHub 作品，编辑 `src/data/curated.json`
 
 ## 部署
+
+**前置条件：仓库必须命名为 `<用户名>.github.io`**（当前应为 `Zzkai666.github.io`）。
+
+这是 GitHub 的硬性规则 —— 只有这个名字的仓库算「用户站点」，跑在 `https://<用户名>.github.io` 根路径。
+如果叫别的名字（比如 `hhkaiBlog`），会被当成「项目站点」，推到 `https://<用户名>.github.io/<仓库名>/` 子路径下；
+那时所有以 `/` 开头的内部链接与 `public/` 资源引用都会 404，必须额外配置 `base` 并改写全站链接。
 
 推送到 `main` 分支即自动构建并发布（`.github/workflows/deploy.yml`）。
 

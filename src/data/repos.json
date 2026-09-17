@@ -1,7 +1,21 @@
 {
   "_comment": "由 scripts/fetch-repos.mjs 自动生成，请勿手工编辑。抓取失败时会保留上一次的内容。",
-  "fetchedAt": "2026-09-16T09:49:10.570Z",
-  "username": "qi-shi-wo-men-hen-ke-xi",
+  "fetchedAt": "2026-09-17T13:04:13.066Z",
+  "username": "Zzkai666",
   "authenticated": false,
-  "repos": []
+  "repos": [
+    {
+      "name": "hhkaiBlog",
+      "fullName": "Zzkai666/hhkaiBlog",
+      "description": null,
+      "language": "HTML",
+      "stars": 0,
+      "forks": 0,
+      "topics": [],
+      "url": "https://github.com/Zzkai666/hhkaiBlog",
+      "homepage": "https://qi-shi-wo-men-hen-ke-xi.github.io/hhkaiBlog/",
+      "archived": false,
+      "pushedAt": "2024-11-05T08:03:34Z"
+    }
+  ]
 }

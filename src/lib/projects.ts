@@ -36,8 +36,11 @@ interface CuratedRecord {
   pinned?: boolean;
 }
 
-/** 博客仓库自身作为站点载体，不在项目列表里重复展示 */
-const SELF_REPO = `${GITHUB_USERNAME}.github.io`;
+/**
+ * 博客仓库自身只作为站点载体，不在项目列表里重复展示。
+ * 转小写比较 —— GitHub 仓库名大小写不敏感，接口返回的大小写不一定与常量一致。
+ */
+const SELF_REPO = `${GITHUB_USERNAME}.github.io`.toLowerCase();
 
 /**
  * 合并两个数据源：
@@ -46,7 +49,7 @@ const SELF_REPO = `${GITHUB_USERNAME}.github.io`;
  */
 export function getProjects(): ProjectItem[] {
   const repos: ProjectItem[] = ((rawRepos as { repos?: RepoRecord[] }).repos ?? [])
-    .filter((repo) => repo.name !== SELF_REPO)
+    .filter((repo) => repo.name.toLowerCase() !== SELF_REPO)
     .map((repo) => ({
       title: repo.name,
       description: repo.description ?? '暂无描述',
